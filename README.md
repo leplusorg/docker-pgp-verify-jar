@@ -45,13 +45,15 @@ docker run --rm -e ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51 thomasleplus/pg
 
 Finally, if you prefer to verify signatures entirely offline, you can
 mount a local GnuPG folder of your choice into the docker container
-and setting the `OFFLINE_KEYS` environment variable to any value:
+and setting the `VERIFICATION_MODE` environment variable to `offline`
+(default value is `online`):
 
 ```
-docker run --rm -e OFFLINE_KEYS=1 -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
+docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
-The `OFFLINE_KEYS` environment variable cannot be used to restrict the
-keys to be used from the mounted keyring. All keys can be used to
-check the signatures but the key ID matching each signature will be
-displayed so you can review it if needed.
+In `offline` mode, all the keys present in the keyring can be used to
+check the signatures. The keys cannot be restricted as with the
+`ONLINE_KEYS` option. But the key ID used to verify each signature
+will be displayed in the output so you can review them if needed. Or
+you can pass a keyring containing only the acceptable keys.
