@@ -2,10 +2,22 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-if [ -z ${KEYSERVER+x} ]; then
-    KEYSERVER="keyserver.ubuntu.com"
+if [ -z ${OFFLINE_KEYS+x} ]; then
+    if [ -z ${KEYSERVER+x} ]; then
+	KEYSERVER="keyserver.ubuntu.com"
+    fi
+    if [ -z ${ONLINE_KEYS+x} ]; then
+	echo No key(s) specified, all keys from server "${KEYSERVER}" can be used.
+    else
+	for key in ${ONLINE_KEYS//,/ }; do
+	    echo Downloading key "${key}" from server "${KEYSERVER}"
+	    gpg --keyserver "${KEYSERVER}" --recv-keys "${key}"
+	done
+    fi
+else
+    echo "Switching to offline keys mode."
 fi
-
+    
 for artifact in "$@"
 do
     echo Checking ${artifact}
@@ -21,5 +33,9 @@ do
     curl -f -s -S -o "${artifactFile}" "${artifactUrl}"
     echo Downloading ${signatureUrl}
     curl -f -s -S -o "${signatureFile}" "${signatureUrl}"
-    gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
+    if [ -z ${OFFLINE_KEYS+x} ] && [ -z ${ONLINE_KEYS+x} ]; then
+	gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
+    else
+	gpg --verify "${signatureFile}" "${artifactFile}"
+    fi
 done
