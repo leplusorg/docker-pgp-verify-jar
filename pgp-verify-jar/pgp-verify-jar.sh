@@ -34,8 +34,8 @@ fi
 for artifact in "$@"
 do
     \echo Checking "${artifact}"
-    artifactPrefix="${artifact%@*}"
-    artifactExtension="${artifact##*@}"
+    artifactPrefix="${artifact%\@*}"
+    artifactExtension="${artifact##*\@}"
     if [ -z ${artifactExtension+x} ]; then
 	artifactExtension='jar'
     fi
