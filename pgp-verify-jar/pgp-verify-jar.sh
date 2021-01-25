@@ -11,6 +11,14 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
     if [ -z ${KEYSERVER+x} ]; then
 	KEYSERVER='keyserver.ubuntu.com'
     fi
+    if [ -z ${BOOTSTRAP_ONLINE_KEYS+x} ]; then
+	\echo No boostrap online key specified.
+    else
+	for key in ${BOOTSTRAP_ONLINE_KEYS//,/ }; do
+	    \echo Downloading boostrap key "${key}" from server "${KEYSERVER}"
+	    \gpg --keyserver "${KEYSERVER}" --recv-keys "${key}"
+	done
+    fi
     if [ -z ${ONLINE_KEYS+x} ]; then
 	\echo No online key specified, all keys from server "${KEYSERVER}" can be used.
     else
