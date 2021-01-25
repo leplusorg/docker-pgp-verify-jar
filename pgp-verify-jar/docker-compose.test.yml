@@ -1,0 +1,10 @@
+version: "3.8"
+ 
+services:
+  sut:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /bin/bash pgp-verify-jar.sh junit:junit:4.13.1
+    environment:
+    - ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51
