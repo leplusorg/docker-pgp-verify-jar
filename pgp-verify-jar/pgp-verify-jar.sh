@@ -28,12 +28,22 @@ fi
 for artifact in "$@"
 do
     \echo Checking "${artifact}"
-    IFS=':' read -ra coordinates <<< "${artifact}"
+    artifactPrefix="${artifact%@*}"
+    artifactExtension="${artifact##*@}"
+    if [ -z ${artifactExtension+x} ]; then
+	artifactExtension='jar'
+    fi
+    IFS=':' read -ra coordinates <<< "${artifactPrefix}"
     groupId="${coordinates[0]}"
     artifactId="${coordinates[1]}"
     artifactVersion="${coordinates[2]}"
-    artifactUrl="https://repo1.maven.org/maven2/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactId}-${artifactVersion}.jar"
-    artifactFile="${artifactId}-${artifactVersion}.jar"
+    if [ -z ${coordinates[3]+x} ]; then
+	artifactClassifierSuffix=''
+    else
+	artifactClassifierSuffix="-${coordinates[3]}"
+    fi
+    artifactUrl="https://repo1.maven.org/maven2/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactId}-${artifactVersion}${artifactClassifierSuffix}.${artifactExtension}"
+    artifactFile="${artifactId}-${artifactVersion}${artifactClassifierSuffix}.${artifactExtension}"
     signatureUrl="${artifactUrl}.asc"
     signatureFile="${artifactFile}.asc"
     \echo Downloading "${artifactUrl}"
