@@ -15,14 +15,14 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
 	\echo No boostrap online key specified.
     else
 	\echo Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
-	\mapfile -t keys <<< "${BOOTSTRAP_ONLINE_KEYS//,/ }"
+	IFS=',' read -ra keys <<< "${BOOTSTRAP_ONLINE_KEYS}"
 	\gpg --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
     fi
     if [ -z ${ONLINE_KEYS+x} ]; then
 	\echo No online key specified, all keys from server "${KEYSERVER}" can be used.
     else
 	\echo Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
-	\mapfile -t keys <<< "${ONLINE_KEYS//,/ }"
+	IFS=',' read -ra keys <<< "${ONLINE_KEYS}"
 	\gpg --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
     fi
 else
