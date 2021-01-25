@@ -1,0 +1,10 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/pgp-verify-jar"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
