@@ -16,3 +16,11 @@ Assuming that you want to verify the signature of a jar with coordinates 'foo:ba
 ```
 docker run --rm thomasleplus/pgp-verify-jar foo:bar:1.2.3
 ```
+
+You can use the KEYSERVER environment variable to choose a different
+key server (default is keyserver.ubuntu.com):
+
+```
+docker run --rm -e KEYSERVER=pgp.mit.edu thomasleplus/pgp-verify-jar foo:bar:1.2.3
+```
+
