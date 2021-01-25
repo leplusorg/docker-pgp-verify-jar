@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.13.0
 
 RUN apk --update --no-cache add bash curl gnupg \
     && rm -rf /var/cache/apk/*
