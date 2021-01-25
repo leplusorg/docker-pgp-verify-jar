@@ -34,9 +34,11 @@ fi
 for artifact in "$@"
 do
     \echo Checking "${artifact}"
-    artifactPrefix="${artifact%\@*}"
-    artifactExtension="${artifact##*\@}"
-    if [ -z ${artifactExtension+x} ]; then
+    if [[ "${artifact}" == *\@* ]]; then
+	artifactPrefix="${artifact%\@*}"
+	artifactExtension="${artifact##*\@}"
+    else
+	artifactPrefix="${artifact}"
 	artifactExtension='jar'
     fi
     IFS=':' read -ra coordinates <<< "${artifactPrefix}"

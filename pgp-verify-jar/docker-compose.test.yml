@@ -5,6 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: junit:junit:4.13.1
+    command: 'junit:junit:4.13.1'
     environment:
     - ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51
