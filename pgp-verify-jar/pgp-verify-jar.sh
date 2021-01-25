@@ -14,18 +14,14 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
     if [ -z ${BOOTSTRAP_ONLINE_KEYS+x} ]; then
 	\echo No boostrap online key specified.
     else
-	for key in ${BOOTSTRAP_ONLINE_KEYS//,/ }; do
-	    \echo Downloading boostrap key "${key}" from server "${KEYSERVER}"
-	    \gpg --keyserver "${KEYSERVER}" --recv-keys "${key}"
-	done
+	\echo Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
+	\gpg --keyserver "${KEYSERVER}" --recv-keys ${BOOTSTRAP_ONLINE_KEYS//,/ }
     fi
     if [ -z ${ONLINE_KEYS+x} ]; then
 	\echo No online key specified, all keys from server "${KEYSERVER}" can be used.
     else
-	for key in ${ONLINE_KEYS//,/ }; do
-	    \echo Downloading key "${key}" from server "${KEYSERVER}"
-	    \gpg --keyserver "${KEYSERVER}" --recv-keys "${key}"
-	done
+	\echo Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
+	\gpg --keyserver "${KEYSERVER}" --recv-keys ${ONLINE_KEYS//,/ }
     fi
 else
     \echo "Using offline verification mode."
