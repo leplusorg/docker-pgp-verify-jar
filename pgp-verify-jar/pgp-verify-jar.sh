@@ -7,7 +7,7 @@ if [ -z ${OFFLINE_KEYS+x} ]; then
 	KEYSERVER="keyserver.ubuntu.com"
     fi
     if [ -z ${ONLINE_KEYS+x} ]; then
-	echo No key(s) specified, all keys from server "${KEYSERVER}" can be used.
+	echo No key specified, all keys from server "${KEYSERVER}" can be used.
     else
 	for key in ${ONLINE_KEYS//,/ }; do
 	    echo Downloading key "${key}" from server "${KEYSERVER}"
