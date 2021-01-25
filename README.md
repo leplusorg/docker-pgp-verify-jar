@@ -43,6 +43,14 @@ should contain a coma-separated list of public key IDs:
 docker run --rm -e ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51 thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
+If the keys downloaded from the server are themselves signed by other
+keys, you can import these key-signing keys first using the
+`BOOTSTRAP_ONLINE_KEYS` environment variable (again a coma-separated
+list of public key IDs).
+
+Otherwise you will see the following warning from `gpg`:
+`gpg: WARNING: This key is not certified with a trusted signature!`
+
 Finally, if you prefer to verify signatures entirely offline, you can
 mount a local GnuPG folder of your choice into the docker container
 and setting the `VERIFICATION_MODE` environment variable to `offline`
@@ -57,3 +65,6 @@ check the signatures. The keys cannot be restricted as with the
 `ONLINE_KEYS` option. But the key ID used to verify each signature
 will be displayed in the output so you can review them if needed. Or
 you can pass a keyring containing only the acceptable keys.
+
+In `offline` mode, you are also responsible for putting in the keyring
+any key-signing key if needed.
