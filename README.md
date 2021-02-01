@@ -19,21 +19,29 @@ docker run --rm thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
 
 You can put several sets in coordinates in arguments to verify
 multiple artifacts. You can also use the `KEYSERVER` environment
-variable to choose a different key server (default is keyserver.ubuntu.com):
+variable to choose a different keyserver (default is keyserver.ubuntu.com):
 
 ```
 docker run --rm -e KEYSERVER=pgp.mit.edu thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
+Alternatively you can use the `--keyserver` option to achieve the same
+result:
+
+```
+docker run --rm thomasleplus/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:1.0.0
+```
+
 Note that this will show you the jar's signature information but if
-you use a public key server, it doesn't provide any guarantee since
-anybody can upload a key to a public key server and claim that it is
+you use a public keyserver, it doesn't provide any guarantee since
+anybody can upload a key to a public keyserver and claim that it is
 owned by anyone (neither the name nor the email address associated
 with the key are verified).
 
 There are several solutions to this issue. If you have access to
-private key server hosting only trusted keys, you can use with the
-`KEYSERVER` environment variable described above.
+private keyserver hosting only trusted keys, you can simply use the
+`KEYSERVER` environment variable or the `--keyserver` option described
+above.
 
 Otherwise, you can use the `ONLINE_KEYS` environment variable to restrict the
 keys to be trusted from the server (private or public). `ONLINE_KEYS`
@@ -43,10 +51,18 @@ should contain a coma-separated list of public key IDs:
 docker run --rm -e ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51 thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
+Alternatively you can use the `--online-keys` option to achieve the
+same result:
+
+```
+docker run --rm thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1 --online-keys=6B1B9BE54C155617,85911F425EC61B51
+```
+
 If the keys downloaded from the server are themselves signed by other
 keys, you can import these key-signing keys first using the
-`BOOTSTRAP_ONLINE_KEYS` environment variable (again a coma-separated
-list of public key IDs).
+`BOOTSTRAP_ONLINE_KEYS` environment variable or the
+`--bootstrap-online-keys` option (again a coma-separated list of
+public key IDs in both cases).
 
 Otherwise you will see the following warning from `gpg`:
 `gpg: WARNING: This key is not certified with a trusted signature!`
@@ -60,11 +76,19 @@ and setting the `VERIFICATION_MODE` environment variable to `offline`
 docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
+Alternatively you can use the `--verification-mode` option to achieve
+the same result:
+
+```
+docker run --rm -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 --verification-mode=offline
+```
+
 In `offline` mode, all the keys present in the keyring can be used to
 check the signatures. The keys cannot be restricted as with the
-`ONLINE_KEYS` option. But the key ID used to verify each signature
-will be displayed in the output so you can review them if needed. Or
-you can pass a keyring containing only the acceptable keys.
+`ONLINE_KEYS` environment variable or the `--online-keys` option. But
+the key ID used to verify each signature will be displayed in the
+output so you can review them if needed. Or you can pass a keyring
+containing only the acceptable keys.
 
 In `offline` mode, you are also responsible for putting in the keyring
 any key-signing key if needed.

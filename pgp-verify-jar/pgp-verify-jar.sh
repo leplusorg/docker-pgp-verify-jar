@@ -2,6 +2,150 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+show_help() {
+cat << EOF
+Usage: ${0##*/} [options] [coordinates]
+Checks the signature of jars from an artifact repository.
+
+Options:
+ 
+ -h                                 display this help and exit
+ -v, --verification-mode MODE       use the corresponding verification mode
+                                    (online or offline). Default is online.
+ -k, --keyserver SERVER             use the provided keyserver for online
+                                    operations. Default is keyserver.ubuntu.com.
+ -b, --bootstrap-online-keys KEYS   download from the keyserver the keys with
+                                    the provided IDs (typically key-signing keys
+                                    used to boostrap the chain of trust). This
+                                    option argument can be a single ID or a
+                                    comma-separated list of IDs.
+ -o, --online-keys KEYS             download from the keyserver only the keys
+                                    with the provided IDs instead of
+                                    automatically downloading any key that was
+                                    used to sign a jar. This option argument can
+                                    be a single ID or a comma-separated list of
+                                    IDs.
+
+Coordinates:
+
+  One or more set of coordinates using the Gradle syntax:
+
+  groupId:artifactId:version:classifier@packaging
+
+  The classifier (and the preceding colon) is optional.
+  The packaging (and the preceding at sign) is also optional.
+EOF
+}
+
+die() {
+    printf '%s\n' "$1" >&2
+    exit 1
+}
+
+while :; do
+    case ${1} in
+        -h|-\?|--help)
+            show_help
+            exit
+            ;;
+        -v|--verification-mode)
+            if [ -z ${2+x} ]; then
+		if [ "${2}" = 'online' ] || [ "${2}" = 'offline' ]; then
+                    VERIFICATION_MODE=${2}
+                    shift
+		else
+                    die 'ERROR: "--verification-mode" option argument must be "online" or "offline".'
+		fi
+            else
+                die 'ERROR: "--verification-mode" requires an option argument.'
+            fi
+            ;;
+        --verification-mode=?*)
+            if [ "${1#*=}" ]; then
+		if [ "${1#*=}" = 'online' ] || [ "${1#*=}" = 'offline' ]; then
+                    VERIFICATION_MODE=${1#*=}
+                    shift
+		else
+                    die 'ERROR: "--verification-mode" value must be "online" or "offline".'
+		fi
+            else
+                die 'ERROR: "--verification-mode" requires an option argument.'
+            fi
+            ;;
+        --verification-mode=)
+            die 'ERROR: "--verification-mode" requires an option argument.'
+            ;;
+        -k|--keyserver)
+            if [ -z ${2+x} ]; then
+                KEYSERVER=${2}
+                shift
+            else
+                die 'ERROR: "--keyserver" requires an option argument.'
+            fi
+            ;;
+        --keyserver=?*)
+            if [ "${1#*=}" ]; then
+                KEYSERVER=${1#*=}
+                shift
+            else
+                die 'ERROR: "--keyserver" requires an option argument.'
+            fi
+            ;;
+        --keyserver=)
+            die 'ERROR: "--keyserver" requires an option argument.'
+            ;;
+        -b|--bootstrap-online-keys)
+            if [ -z ${2+x} ]; then
+                BOOTSTRAP_ONLINE_KEYS=${2}
+                shift
+            else
+                die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+            fi
+            ;;
+        --bootstrap-online-keys=?*)
+            if [ "${1#*=}" ]; then
+                BOOTSTRAP_ONLINE_KEYS=${1#*=}
+                shift
+            else
+                die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+            fi
+            ;;
+        --bootstrap-online-keys=)
+            die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+            ;;
+        -o|--online-keys)
+            if [ -z ${2+x} ]; then
+                ONLINE_KEYS=${2}
+                shift
+            else
+                die 'ERROR: "--online-keys" requires an option argument.'
+            fi
+            ;;
+        --online-keys=?*)
+            if [ "${1#*=}" ]; then
+                ONLINE_KEYS=${1#*=}
+                shift
+            else
+                die 'ERROR: "--online-keys" requires an option argument.'
+            fi
+            ;;
+        --online-keys=)
+            die 'ERROR: "--online-keys" requires an option argument.'
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -?*)
+            die 'ERROR: Unknown option (%s).'
+            ;;
+        *)
+            break
+    esac
+
+    shift
+done
+
 if [ -z ${VERIFICATION_MODE+x} ]; then
     VERIFICATION_MODE='online'
 fi
