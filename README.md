@@ -55,7 +55,7 @@ Alternatively you can use the `--online-keys` option to achieve the
 same result:
 
 ```
-docker run --rm thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1 --online-keys=6B1B9BE54C155617,85911F425EC61B51
+docker run --rm thomasleplus/pgp-verify-jar --online-keys=6B1B9BE54C155617,85911F425EC61B51 org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
 If the keys downloaded from the server are themselves signed by other
@@ -80,7 +80,7 @@ Alternatively you can use the `--verification-mode` option to achieve
 the same result:
 
 ```
-docker run --rm -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 --verification-mode=offline
+docker run --rm -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:1.0.0
 ```
 
 In `offline` mode, all the keys present in the keyring can be used to
