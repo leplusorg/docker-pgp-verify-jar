@@ -2,20 +2,20 @@
 
 Docker container to verify jars PGP signatures.
 
-[![ShellCheck](https://github.com/thomasleplus/docker-pgp-verify-jar/workflows/ShellCheck/badge.svg)](https://github.com/thomasleplus/docker-pgp-verify-jar/actions?query=workflow:"ShellCheck")
-[![Docker Build](https://github.com/thomasleplus/docker-pgp-verify-jar/workflows/Docker/badge.svg)](https://github.com/thomasleplus/docker-pgp-verify-jar/actions?query=workflow:"Docker")
-[![Docker Stars](https://img.shields.io/docker/stars/thomasleplus/pgp-verify-jar)](https://hub.docker.com/r/thomasleplus/pgp-verify-jar)
-[![Docker Pulls](https://img.shields.io/docker/pulls/thomasleplus/pgp-verify-jar)](https://hub.docker.com/r/thomasleplus/pgp-verify-jar)
-[![Docker Automated](https://img.shields.io/docker/cloud/automated/thomasleplus/pgp-verify-jar)](https://hub.docker.com/r/thomasleplus/pgp-verify-jar)
-[![Docker Build](https://img.shields.io/docker/cloud/build/thomasleplus/pgp-verify-jar)](https://hub.docker.com/r/thomasleplus/pgp-verify-jar)
-[![Docker Version](https://img.shields.io/docker/v/thomasleplus/pgp-verify-jar?sort=semver)](https://hub.docker.com/r/thomasleplus/pgp-verify-jar)
+[![ShellCheck](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/ShellCheck/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"ShellCheck")
+[![Docker Build](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/Docker/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"Docker")
+[![Docker Stars](https://img.shields.io/docker/stars/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
+[![Docker Pulls](https://img.shields.io/docker/pulls/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
+[![Docker Automated](https://img.shields.io/docker/cloud/automated/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
+[![Docker Build](https://img.shields.io/docker/cloud/build/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
+[![Docker Version](https://img.shields.io/docker/v/leplusorg/pgp-verify-jar?sort=semver)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
 
 ## Examples
 
 Assuming that you want to see the signature of a jar with coordinates 'org.leplus:ristretto:1.0.0':
 
 ```
-docker run --rm thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
+docker run --rm leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
 You can put several sets in coordinates in arguments to verify
@@ -23,14 +23,14 @@ multiple artifacts. You can also use the `KEYSERVER` environment
 variable to choose a different keyserver (default is keyserver.ubuntu.com):
 
 ```
-docker run --rm -e KEYSERVER=pgp.mit.edu thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
+docker run --rm -e KEYSERVER=pgp.mit.edu leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
 Alternatively you can use the `--keyserver` option to achieve the same
 result:
 
 ```
-docker run --rm thomasleplus/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:1.0.0
+docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:1.0.0
 ```
 
 Note that this will show you the jar's signature information but if
@@ -49,14 +49,14 @@ keys to be trusted from the server (private or public). `ONLINE_KEYS`
 should contain a coma-separated list of public key IDs:
 
 ```
-docker run --rm -e ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51 thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1
+docker run --rm -e ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51 leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
 Alternatively you can use the `--online-keys` option to achieve the
 same result:
 
 ```
-docker run --rm thomasleplus/pgp-verify-jar --online-keys=6B1B9BE54C155617,85911F425EC61B51 org.leplus:ristretto:1.0.0 junit:junit:4.13.1
+docker run --rm leplusorg/pgp-verify-jar --online-keys=6B1B9BE54C155617,85911F425EC61B51 org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
 If the keys downloaded from the server are themselves signed by other
@@ -74,14 +74,14 @@ and setting the `VERIFICATION_MODE` environment variable to `offline`
 (default value is `online`):
 
 ```
-docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar org.leplus:ristretto:1.0.0
+docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
 Alternatively you can use the `--verification-mode` option to achieve
 the same result:
 
 ```
-docker run --rm -v "/path/to/.gnupg:/root/.gnupg" thomasleplus/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:1.0.0
+docker run --rm -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:1.0.0
 ```
 
 In `offline` mode, all the keys present in the keyring can be used to
