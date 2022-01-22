@@ -14,7 +14,7 @@ Docker container to verify jars PGP signatures.
 
 Assuming that you want to see the signature of a jar with coordinates 'org.leplus:ristretto:1.0.0':
 
-```
+```bash
 docker run --rm leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
@@ -22,14 +22,14 @@ You can put several sets in coordinates in arguments to verify
 multiple artifacts. You can also use the `KEYSERVER` environment
 variable to choose a different keyserver (default is keyserver.ubuntu.com):
 
-```
+```bash
 docker run --rm -e KEYSERVER=pgp.mit.edu leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
 Alternatively you can use the `--keyserver` option to achieve the same
 result:
 
-```
+```bash
 docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:1.0.0
 ```
 
@@ -48,14 +48,14 @@ Otherwise, you can use the `ONLINE_KEYS` environment variable to restrict the
 keys to be trusted from the server (private or public). `ONLINE_KEYS`
 should contain a coma-separated list of public key IDs:
 
-```
+```bash
 docker run --rm -e ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51 leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
 Alternatively you can use the `--online-keys` option to achieve the
 same result:
 
-```
+```bash
 docker run --rm leplusorg/pgp-verify-jar --online-keys=6B1B9BE54C155617,85911F425EC61B51 org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
@@ -73,14 +73,14 @@ mount a local GnuPG folder of your choice into the docker container
 and setting the `VERIFICATION_MODE` environment variable to `offline`
 (default value is `online`):
 
-```
+```bash
 docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar org.leplus:ristretto:1.0.0
 ```
 
 Alternatively you can use the `--verification-mode` option to achieve
 the same result:
 
-```
+```bash
 docker run --rm -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:1.0.0
 ```
 
