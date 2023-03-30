@@ -59,8 +59,8 @@ same result:
 docker run --rm leplusorg/pgp-verify-jar --online-keys=6B1B9BE54C155617,85911F425EC61B51 org.leplus:ristretto:1.0.0 junit:junit:4.13.1
 ```
 
-If the keys downloaded from the server are themselves signed by other
-keys, you can import these key-signing keys first using the
+If the keys downloaded from the server are themselves signed by
+other keys, you can import these key-signing keys first using the
 `BOOTSTRAP_ONLINE_KEYS` environment variable or the
 `--bootstrap-online-keys` option (again a coma-separated list of
 public key IDs in both cases).
