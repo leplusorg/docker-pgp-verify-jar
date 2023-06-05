@@ -4,7 +4,7 @@ FROM alpine:3.18.0
 RUN apk --update --no-cache add bash curl gnupg \
     && rm -rf /var/cache/apk/* \
     # use pre-existing gpg directory, see https://github.com/nodejs/docker-node/pull/1895#issuecomment-1550389150
-    && export GNUPGHOME="$(mktemp -d)" \
+    && mkdir /root/.gnupg \
     && gpg --list-keys \
     && gpgconf --kill all
 
