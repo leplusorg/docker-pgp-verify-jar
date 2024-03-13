@@ -19,4 +19,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Pull the latest ${{ matrix.platform }} image
-        run: docker pull --platform ${{ matrix.platform }} leplusorg/pgp-verify-jar
+        run: docker pull --platform ${{ matrix.platform }} ${{ github.repository_owner }}/pgp-verify-jar
