@@ -142,8 +142,6 @@ while :; do
         *)
             break
     esac
-
-    shift
 done
 
 if [ -z ${VERIFICATION_MODE+x} ]; then
@@ -174,9 +172,8 @@ else
     \unset KEYSERVER
     \unset ONLINE_KEYS
 fi
-    
-for artifact in "$@"
-do
+
+for artifact in "${@}" ; do
     \echo Checking "${artifact}"
     if [[ "${artifact}" == *\@* ]]; then
 	artifactPrefix="${artifact%\@*}"
