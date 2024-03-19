@@ -11,4 +11,4 @@ RUN apk --update --no-cache add bash curl gnupg \
 
 COPY pgp-verify-jar.sh /opt/pgp-verify-jar.sh
 
-ENTRYPOINT ["/opt/pgp-verify-jar.sh"]
+ENTRYPOINT ["/bin/bash", "/opt/pgp-verify-jar.sh"]
