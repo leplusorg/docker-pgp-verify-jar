@@ -1,6 +1,6 @@
 ---
 version: "3.8"
- 
+
 services:
   sut:
     build:
@@ -8,4 +8,4 @@ services:
       dockerfile: Dockerfile
     command: junit:junit:4.13.1 org.leplus:ristretto:1.0.0
     environment:
-    - ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51
+      - ONLINE_KEYS=6B1B9BE54C155617,85911F425EC61B51
