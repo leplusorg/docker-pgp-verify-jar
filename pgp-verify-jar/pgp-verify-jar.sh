@@ -201,8 +201,8 @@ for artifact in "${@}"; do
 	\echo Downloading "${signatureUrl}"
 	\curl -f -s -S -o "${signatureFile}" "${signatureUrl}"
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
-		exec \gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
+		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
 	else
-		exec \gpg --verify "${signatureFile}" "${artifactFile}"
+		\gpg --verify "${signatureFile}" "${artifactFile}"
 	fi
 done
