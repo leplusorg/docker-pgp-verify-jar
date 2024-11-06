@@ -31,6 +31,6 @@ USER "${USER_NAME}"
 
 WORKDIR "${HOME}"
 
-CMD ["/opt/pgp-verify-jar.sh"]
+ENTRYPOINT ["/opt/pgp-verify-jar.sh"]
 
-ENTRYPOINT []
+CMD []
