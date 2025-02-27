@@ -8,6 +8,8 @@ Docker container to verify jars PGP signatures.
 [![Docker Stars](https://img.shields.io/docker/stars/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
 [![Docker Pulls](https://img.shields.io/docker/pulls/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
 [![Docker Version](https://img.shields.io/docker/v/leplusorg/pgp-verify-jar?sort=semver)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/10079/badge)](https://bestpractices.coreinfrastructure.org/projects/10079)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/leplusorg/docker-pgp-verify-jar/badge)](https://securityscorecards.dev/viewer/?uri=github.com/leplusorg/docker-pgp-verify-jar)
 
 ## Examples
 
