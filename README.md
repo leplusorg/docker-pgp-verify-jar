@@ -92,3 +92,14 @@ containing only the acceptable keys.
 
 In `offline` mode, you are also responsible for putting in the keyring
 any key-signing key if needed.
+
+## Software Bill of Materials (SBOM)
+
+To get the SBOM for the latest image (in SPDX JSON format), use the
+following command:
+
+```bash
+docker buildx imagetools inspect leplusorg/pgp-verify-jar --format '{{ json (index .SBOM "linux/amd64").SPDX }}'
+```
+
+Replace `linux/amd64` by the desired platform (`linux/amd64`, `linux/arm64` etc.).
