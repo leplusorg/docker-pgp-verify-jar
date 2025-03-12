@@ -7,6 +7,8 @@ ARG USER_HOME=/home/default
 ARG USER_ID=1000
 ARG USER_GECOS=Default
 
+SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+
 # hadolint ignore=DL3018
 RUN apk --update --no-cache add bash curl gnupg \
     && rm -rf /var/cache/apk/* \
