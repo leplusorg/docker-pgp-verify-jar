@@ -7,13 +7,22 @@ ARG USER_HOME=/home/default
 ARG USER_ID=1000
 ARG USER_GECOS=Default
 
-SHELL ["/bin/ash", "-eo", "pipefail", "-c"]
+SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 
-# hadolint ignore=DL3018
-RUN apk --update --no-cache add bash curl gnupg \
-    && rm -rf /var/cache/apk/* \
-    # create gpg directory to prevent keyboxd to automagically start, see https://github.com/nodejs/docker-node/pull/1895#issuecomment-1550389150
-    && mkdir /root/.gnupg \
+# hadolint ignore=DL3019
+RUN apk -U upgrade \
+    && apk add \
+    bash=5.2.37-r0 \
+    curl=8.12.1-r0 \
+    gnupg=2.4.7-r0 \
+    && if apk -u list | grep -q -e . ; then \
+      apk -u list ; \
+      exit 1 ; \
+    fi \
+    && rm -rf /var/cache/apk/*
+    
+# create gpg directory to prevent keyboxd to automagically start, see https://github.com/nodejs/docker-node/pull/1895#issuecomment-1550389150
+RUN mkdir /root/.gnupg \
     && chmod 700 /root/.gnupg \
     && gpg --list-keys \
     && gpgconf --kill all
