@@ -250,6 +250,6 @@ for artifact in "${artifacts[@]}"; do
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
 		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	else
-		\gpg --verify "${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
+		\gpg --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	fi
 done
