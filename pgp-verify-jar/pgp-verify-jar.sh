@@ -82,18 +82,18 @@ while :; do
 		;;
 	-r | --repo-base-url)
 		if [ -z ${2+x} ]; then
-		    REPO_BASE_URL=${2}
-		    shift
+			REPO_BASE_URL=${2}
+			shift
 		else
-		    die 'ERROR: "--repo-base-url" requires an option argument.'
+			die 'ERROR: "--repo-base-url" requires an option argument.'
 		fi
 		;;
 	--repo-base-url=?*)
 		if [ "${1#*=}" ]; then
-		    REPO_BASE_URL=${1#*=}
-		    shift
+			REPO_BASE_URL=${1#*=}
+			shift
 		else
-		    die 'ERROR: "--repo-base-url" requires an option argument.'
+			die 'ERROR: "--repo-base-url" requires an option argument.'
 		fi
 		;;
 	--repo-base-url=)
@@ -170,7 +170,7 @@ while :; do
 done
 
 if [ -z ${REPO_BASE_URL+x} ]; then
-    REPO_BASE_URL='https://repo1.maven.org/maven2'
+	REPO_BASE_URL='https://repo1.maven.org/maven2'
 fi
 
 if [ -z ${VERIFICATION_MODE+x} ]; then
