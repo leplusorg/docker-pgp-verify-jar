@@ -58,7 +58,7 @@ docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:rist
 ```
 
 > [!WARNING]
-> Note that this will show you the jar's signature information but if
+> Note that this will show you the jar files signature information but if
 > you use a public keyserver, it doesn't provide any guarantee since
 > anybody can upload a key to a public keyserver and claim that it is
 > owned by anyone (neither the name nor the email address associated
