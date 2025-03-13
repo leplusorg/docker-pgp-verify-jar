@@ -180,7 +180,6 @@ if [ -z ${VERIFICATION_MODE+x} ]; then
 fi
 
 if [ "${VERIFICATION_MODE}" = 'online' ]; then
-	\mkdir -p /opt/gnupg        
 	\echo pgp-verify-jar: Using online verification mode.
 	if [ -z ${KEYSERVER+x} ]; then
 		KEYSERVER='keyserver.ubuntu.com'
