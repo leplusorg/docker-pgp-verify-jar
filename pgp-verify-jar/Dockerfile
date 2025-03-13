@@ -27,6 +27,8 @@ RUN mkdir -m 700 /root/.gnupg \
     && gpg --list-keys \
     && gpgconf --kill all
 
+RUN mkdir -m 777 /tmp/pgp-verify-jar
+
 COPY pgp-verify-jar.sh /opt/pgp-verify-jar.sh
 
 RUN adduser \

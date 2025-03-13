@@ -171,6 +171,10 @@ if [ $# -ne 0 ]; then
 	done
 fi
 
+if [ -z ${DOWNLOAD_DIR+x} ]; then
+	DOWNLOAD_DIR='/tmp/pgp-verify-jar'
+fi
+
 if [ -z ${REPO_BASE_URL+x} ]; then
 	REPO_BASE_URL='https://repo1.maven.org/maven2'
 fi
@@ -238,13 +242,14 @@ for artifact in "${artifacts[@]}"; do
 	artifactUrl="${REPO_BASE_URL}/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactFile}"
 	signatureUrl="${artifactUrl}.asc"
 	signatureFile="${artifactFile}.asc"
+	mkdir -m 777 "${DOWNLOAD_DIR}"
 	\echo pgp-verify-jar: Downloading "${artifactUrl}"
-	\curl -f -s -S -o "${artifactFile}" "${artifactUrl}"
+	\curl -f -s -S -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
 	\echo pgp-verify-jar: Downloading "${signatureUrl}"
-	\curl -f -s -S -o "${signatureFile}" "${signatureUrl}"
+	\curl -f -s -S -o "${DOWNLOAD_DIR}/${signatureFile}" "${signatureUrl}"
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
-		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
+		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	else
-		\gpg --verify "${signatureFile}" "${artifactFile}"
+		\gpg --verify "${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	fi
 done
