@@ -57,11 +57,11 @@ result:
 docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
-Note that this will show you the jar's signature information but if
+**Note that this will show you the jar's signature information but if
 you use a public keyserver, it doesn't provide any guarantee since
 anybody can upload a key to a public keyserver and claim that it is
 owned by anyone (neither the name nor the email address associated
-with the key are verified).
+with the key are verified).**
 
 There are several solutions to this issue. If you have access to
 private keyserver hosting only trusted keys, you can simply use the
@@ -91,11 +91,6 @@ public key IDs in both cases).
 
 Otherwise you will see the following warning from `gpg`:
 `gpg: WARNING: This key is not certified with a trusted signature!`
-
-**Note that if you do not restrict which keys are used to verify
-signatures while in online mode, any key will be accepted. Meaning
-that the tool will not complain as long as the jar files are signed by
-ANYONE.**
 
 Finally, if you prefer to verify signatures entirely offline, you can
 mount a local GnuPG folder of your choice into the docker container
