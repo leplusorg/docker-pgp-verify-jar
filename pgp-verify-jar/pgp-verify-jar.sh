@@ -43,7 +43,7 @@ EOF
 }
 
 die() {
-	printf '%s\n' "$1" >&2
+	printf 'ERROR: %s\n' "$1" >&2
 	exit 1
 }
 
@@ -60,10 +60,10 @@ if [ $# -ne 0 ]; then
 					VERIFICATION_MODE=${2}
 					shift
 				else
-					die 'ERROR: "--verification-mode" option argument must be "online" or "offline".'
+					die '"--verification-mode" option argument must be "online" or "offline".'
 				fi
 			else
-				die 'ERROR: "--verification-mode" requires an option argument.'
+				die '"--verification-mode" requires an option argument.'
 			fi
 			;;
 		--verification-mode=?*)
@@ -72,21 +72,21 @@ if [ $# -ne 0 ]; then
 					VERIFICATION_MODE=${1#*=}
 					shift
 				else
-					die 'ERROR: "--verification-mode" value must be "online" or "offline".'
+					die '"--verification-mode" value must be "online" or "offline".'
 				fi
 			else
-				die 'ERROR: "--verification-mode" requires an option argument.'
+				die '"--verification-mode" requires an option argument.'
 			fi
 			;;
 		--verification-mode=)
-			die 'ERROR: "--verification-mode" requires an option argument.'
+			die '"--verification-mode" requires an option argument.'
 			;;
 		-r | --repo-base-url)
 			if [ -z ${2+x} ]; then
 				REPO_BASE_URL=${2}
 				shift
 			else
-				die 'ERROR: "--repo-base-url" requires an option argument.'
+				die '"--repo-base-url" requires an option argument.'
 			fi
 			;;
 		--repo-base-url=?*)
@@ -94,18 +94,18 @@ if [ $# -ne 0 ]; then
 				REPO_BASE_URL=${1#*=}
 				shift
 			else
-				die 'ERROR: "--repo-base-url" requires an option argument.'
+				die '"--repo-base-url" requires an option argument.'
 			fi
 			;;
 		--repo-base-url=)
-			die 'ERROR: "--repo-base-url" requires an option argument.'
+			die '"--repo-base-url" requires an option argument.'
 			;;
 		-k | --keyserver)
 			if [ -z ${2+x} ]; then
 				KEYSERVER=${2}
 				shift
 			else
-				die 'ERROR: "--keyserver" requires an option argument.'
+				die '"--keyserver" requires an option argument.'
 			fi
 			;;
 		--keyserver=?*)
@@ -113,18 +113,18 @@ if [ $# -ne 0 ]; then
 				KEYSERVER=${1#*=}
 				shift
 			else
-				die 'ERROR: "--keyserver" requires an option argument.'
+				die '"--keyserver" requires an option argument.'
 			fi
 			;;
 		--keyserver=)
-			die 'ERROR: "--keyserver" requires an option argument.'
+			die '"--keyserver" requires an option argument.'
 			;;
 		-b | --bootstrap-online-keys)
 			if [ -z ${2+x} ]; then
 				BOOTSTRAP_ONLINE_KEYS=${2}
 				shift
 			else
-				die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+				die '"--bootstrap-online-keys" requires an option argument.'
 			fi
 			;;
 		--bootstrap-online-keys=?*)
@@ -132,18 +132,18 @@ if [ $# -ne 0 ]; then
 				BOOTSTRAP_ONLINE_KEYS=${1#*=}
 				shift
 			else
-				die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+				die '"--bootstrap-online-keys" requires an option argument.'
 			fi
 			;;
 		--bootstrap-online-keys=)
-			die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+			die '"--bootstrap-online-keys" requires an option argument.'
 			;;
 		-o | --online-keys)
 			if [ -z ${2+x} ]; then
 				ONLINE_KEYS=${2}
 				shift
 			else
-				die 'ERROR: "--online-keys" requires an option argument.'
+				die '"--online-keys" requires an option argument.'
 			fi
 			;;
 		--online-keys=?*)
@@ -151,18 +151,18 @@ if [ $# -ne 0 ]; then
 				ONLINE_KEYS=${1#*=}
 				shift
 			else
-				die 'ERROR: "--online-keys" requires an option argument.'
+				die '"--online-keys" requires an option argument.'
 			fi
 			;;
 		--online-keys=)
-			die 'ERROR: "--online-keys" requires an option argument.'
+			die '"--online-keys" requires an option argument.'
 			;;
 		--)
 			shift
 			break
 			;;
 		-?*)
-			die 'ERROR: Unknown option (%s).'
+			die 'Unknown option (%s).'
 			;;
 		*)
 			break
@@ -207,9 +207,13 @@ fi
 declare -a artifacts
 
 if [ $# -ne 0 ]; then
+	\echo "Using artifacts from arguments"
 	artifacts=("${@}")
 elif [ -n "${ARTIFACTS+x}" ]; then
+	\echo "Using artifacts from ARTIFACTS environment variable"
 	IFS=',' read -r -a artifacts <<<"${ARTIFACTS}"
+else
+	die 'No artifact provided'
 fi
 
 for artifact in "${artifacts[@]}"; do
