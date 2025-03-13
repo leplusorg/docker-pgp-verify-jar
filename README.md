@@ -11,6 +11,22 @@ Docker container to verify jars PGP signatures.
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/10079/badge)](https://bestpractices.coreinfrastructure.org/projects/10079)
 [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/leplusorg/docker-pgp-verify-jar/badge)](https://securityscorecards.dev/viewer/?uri=github.com/leplusorg/docker-pgp-verify-jar)
 
+## Goal and limitations
+
+The goal of this docker container image is to provide an easy way to
+verify jar files signatures. Currently it can only verify files that
+it downloads from a Maven repository that doesn't require
+authentication and that use a certificate issues by a trusted public
+CA.
+
+This image has the benefit of being platform-agnostic and it
+doesn't rely on Maven or Java. But if your goal is to validate
+signatures for your project dependencies at build time and/or runtime,
+there are Maven plugins (e.g.
+[Verify PGP signatures](https://www.simplify4u.org/pgpverify-maven-plugin/)).
+Gradle even has this feature
+(out-of-the-box)[https://docs.gradle.org/current/userguide/dependency_verification.html].
+
 ## Examples
 
 Assuming that you want to see the signature of a jar with coordinates 'org.leplus:ristretto:1.0.0':

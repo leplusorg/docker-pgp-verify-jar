@@ -11,7 +11,12 @@ Options:
  
  -h                                 display this help and exit
  -v, --verification-mode MODE       use the corresponding verification mode
-                                    (online or offline). Default is online.
+                                    (online or offline). In online mode, keys
+                                    are downloaded from a keyserver. In offline
+                                    mode, keys are read from local key store.
+                                    Default is online.
+ -r, --repo-base-url URL            use the provided URL to fecth signature
+                                    files. Default is https://repo1.maven.org/maven2.
  -k, --keyserver SERVER             use the provided keyserver for online
                                     operations. Default is keyserver.ubuntu.com.
  -b, --bootstrap-online-keys KEYS   download from the keyserver the keys with
@@ -74,6 +79,25 @@ while :; do
 		;;
 	--verification-mode=)
 		die 'ERROR: "--verification-mode" requires an option argument.'
+		;;
+	-r | --repo-base-url)
+		if [ -z ${2+x} ]; then
+		    REPO_BASE_URL=${2}
+		    shift
+		else
+		    die 'ERROR: "--repo-base-url" requires an option argument.'
+		fi
+		;;
+	--repo-base-url=?*)
+		if [ "${1#*=}" ]; then
+		    REPO_BASE_URL=${1#*=}
+		    shift
+		else
+		    die 'ERROR: "--repo-base-url" requires an option argument.'
+		fi
+		;;
+	--repo-base-url=)
+		die 'ERROR: "--repo-base-url" requires an option argument.'
 		;;
 	-k | --keyserver)
 		if [ -z ${2+x} ]; then
@@ -145,6 +169,10 @@ while :; do
 	esac
 done
 
+if [ -z ${REPO_BASE_URL+x} ]; then
+    REPO_BASE_URL='https://repo1.maven.org/maven2'
+fi
+
 if [ -z ${VERIFICATION_MODE+x} ]; then
 	VERIFICATION_MODE='online'
 fi
@@ -192,8 +220,8 @@ for artifact in "${@}"; do
 	else
 		artifactClassifierSuffix="-${coordinates[3]}"
 	fi
-	artifactUrl="https://repo1.maven.org/maven2/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactId}-${artifactVersion}${artifactClassifierSuffix}.${artifactExtension}"
 	artifactFile="${artifactId}-${artifactVersion}${artifactClassifierSuffix}.${artifactExtension}"
+	artifactUrl="${REPO_BASE_URL}/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactFile}"
 	signatureUrl="${artifactUrl}.asc"
 	signatureFile="${artifactFile}.asc"
 	\echo Downloading "${artifactUrl}"
