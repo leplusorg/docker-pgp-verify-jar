@@ -1,6 +1,6 @@
 # PGP Verify Jar
 
-Docker container to verify jars PGP signatures.
+Docker container to verify jar files PGP signatures.
 
 [![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](https://github.com/leplusorg/docker-pgp-verify-jar/blob/main/pgp-verify-jar/Dockerfile)
 [![ShellCheck](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/ShellCheck/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"ShellCheck")
@@ -91,6 +91,11 @@ public key IDs in both cases).
 
 Otherwise you will see the following warning from `gpg`:
 `gpg: WARNING: This key is not certified with a trusted signature!`
+
+**Note that if you do not restrict which keys are used to verify
+signatures while in online mode, any key will be accepted. Meaning
+that the tool will not complain as long as the jar files are signed by
+ANYONE.**
 
 Finally, if you prefer to verify signatures entirely offline, you can
 mount a local GnuPG folder of your choice into the docker container
