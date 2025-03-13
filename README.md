@@ -29,35 +29,32 @@ Gradle even has this feature
 
 ## Examples
 
-Assuming that you want to see the signature of a jar with coordinates 'org.leplus:ristretto:2.0.0':
+Assuming that you want to see the signature of two jar files:
 
 ```bash
-docker run --rm leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0
+docker run --rm leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
-
-You can put several sets in coordinates in arguments to verify
-multiple artifacts.
 
 You can also use the `ARTIFACTS` environment
 variable to pass the list of artifacts to verify (coma-separated if
 multiple):
 
 ```bash
-docker run --rm -e ARTIFACTS=org.leplus:ristretto:2.0.0 leplusorg/pgp-verify-jar
+docker run --rm -e ARTIFACTS=org.leplus:ristretto:2.0.0,junit:junit:4.13.1 leplusorg/pgp-verify-jar
 ```
 
 You can also use the `KEYSERVER` environment
 variable to choose a different keyserver (default is keyserver.ubuntu.com):
 
 ```bash
-docker run --rm -e KEYSERVER=pgp.mit.edu leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0
+docker run --rm -e KEYSERVER=pgp.mit.edu leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
 Alternatively you can use the `--keyserver` option to achieve the same
 result:
 
 ```bash
-docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:2.0.0
+docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
 Note that this will show you the jar's signature information but if
@@ -101,14 +98,14 @@ and setting the `VERIFICATION_MODE` environment variable to `offline`
 (default value is `online`):
 
 ```bash
-docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0
+docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
 Alternatively you can use the `--verification-mode` option to achieve
 the same result:
 
 ```bash
-docker run --rm -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:2.0.0
+docker run --rm -v "/path/to/.gnupg:/root/.gnupg" leplusorg/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
 In `offline` mode, all the keys present in the keyring can be used to

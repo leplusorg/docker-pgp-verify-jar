@@ -47,127 +47,129 @@ die() {
 	exit 1
 }
 
-while :; do
-	case ${1} in
-	-h | -\? | --help)
-		show_help
-		exit
-		;;
-	-v | --verification-mode)
-		if [ -z ${2+x} ]; then
-			if [ "${2}" = 'online' ] || [ "${2}" = 'offline' ]; then
-				VERIFICATION_MODE=${2}
+if [ $# -ne 0 ]; then
+	while :; do
+		case ${1} in
+		-h | -\? | --help)
+			show_help
+			exit
+			;;
+		-v | --verification-mode)
+			if [ -z ${2+x} ]; then
+				if [ "${2}" = 'online' ] || [ "${2}" = 'offline' ]; then
+					VERIFICATION_MODE=${2}
+					shift
+				else
+					die 'ERROR: "--verification-mode" option argument must be "online" or "offline".'
+				fi
+			else
+				die 'ERROR: "--verification-mode" requires an option argument.'
+			fi
+			;;
+		--verification-mode=?*)
+			if [ "${1#*=}" ]; then
+				if [ "${1#*=}" = 'online' ] || [ "${1#*=}" = 'offline' ]; then
+					VERIFICATION_MODE=${1#*=}
+					shift
+				else
+					die 'ERROR: "--verification-mode" value must be "online" or "offline".'
+				fi
+			else
+				die 'ERROR: "--verification-mode" requires an option argument.'
+			fi
+			;;
+		--verification-mode=)
+			die 'ERROR: "--verification-mode" requires an option argument.'
+			;;
+		-r | --repo-base-url)
+			if [ -z ${2+x} ]; then
+				REPO_BASE_URL=${2}
 				shift
 			else
-				die 'ERROR: "--verification-mode" option argument must be "online" or "offline".'
+				die 'ERROR: "--repo-base-url" requires an option argument.'
 			fi
-		else
-			die 'ERROR: "--verification-mode" requires an option argument.'
-		fi
-		;;
-	--verification-mode=?*)
-		if [ "${1#*=}" ]; then
-			if [ "${1#*=}" = 'online' ] || [ "${1#*=}" = 'offline' ]; then
-				VERIFICATION_MODE=${1#*=}
+			;;
+		--repo-base-url=?*)
+			if [ "${1#*=}" ]; then
+				REPO_BASE_URL=${1#*=}
 				shift
 			else
-				die 'ERROR: "--verification-mode" value must be "online" or "offline".'
+				die 'ERROR: "--repo-base-url" requires an option argument.'
 			fi
-		else
-			die 'ERROR: "--verification-mode" requires an option argument.'
-		fi
-		;;
-	--verification-mode=)
-		die 'ERROR: "--verification-mode" requires an option argument.'
-		;;
-	-r | --repo-base-url)
-		if [ -z ${2+x} ]; then
-			REPO_BASE_URL=${2}
-			shift
-		else
+			;;
+		--repo-base-url=)
 			die 'ERROR: "--repo-base-url" requires an option argument.'
-		fi
-		;;
-	--repo-base-url=?*)
-		if [ "${1#*=}" ]; then
-			REPO_BASE_URL=${1#*=}
-			shift
-		else
-			die 'ERROR: "--repo-base-url" requires an option argument.'
-		fi
-		;;
-	--repo-base-url=)
-		die 'ERROR: "--repo-base-url" requires an option argument.'
-		;;
-	-k | --keyserver)
-		if [ -z ${2+x} ]; then
-			KEYSERVER=${2}
-			shift
-		else
+			;;
+		-k | --keyserver)
+			if [ -z ${2+x} ]; then
+				KEYSERVER=${2}
+				shift
+			else
+				die 'ERROR: "--keyserver" requires an option argument.'
+			fi
+			;;
+		--keyserver=?*)
+			if [ "${1#*=}" ]; then
+				KEYSERVER=${1#*=}
+				shift
+			else
+				die 'ERROR: "--keyserver" requires an option argument.'
+			fi
+			;;
+		--keyserver=)
 			die 'ERROR: "--keyserver" requires an option argument.'
-		fi
-		;;
-	--keyserver=?*)
-		if [ "${1#*=}" ]; then
-			KEYSERVER=${1#*=}
-			shift
-		else
-			die 'ERROR: "--keyserver" requires an option argument.'
-		fi
-		;;
-	--keyserver=)
-		die 'ERROR: "--keyserver" requires an option argument.'
-		;;
-	-b | --bootstrap-online-keys)
-		if [ -z ${2+x} ]; then
-			BOOTSTRAP_ONLINE_KEYS=${2}
-			shift
-		else
+			;;
+		-b | --bootstrap-online-keys)
+			if [ -z ${2+x} ]; then
+				BOOTSTRAP_ONLINE_KEYS=${2}
+				shift
+			else
+				die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+			fi
+			;;
+		--bootstrap-online-keys=?*)
+			if [ "${1#*=}" ]; then
+				BOOTSTRAP_ONLINE_KEYS=${1#*=}
+				shift
+			else
+				die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
+			fi
+			;;
+		--bootstrap-online-keys=)
 			die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
-		fi
-		;;
-	--bootstrap-online-keys=?*)
-		if [ "${1#*=}" ]; then
-			BOOTSTRAP_ONLINE_KEYS=${1#*=}
-			shift
-		else
-			die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
-		fi
-		;;
-	--bootstrap-online-keys=)
-		die 'ERROR: "--bootstrap-online-keys" requires an option argument.'
-		;;
-	-o | --online-keys)
-		if [ -z ${2+x} ]; then
-			ONLINE_KEYS=${2}
-			shift
-		else
+			;;
+		-o | --online-keys)
+			if [ -z ${2+x} ]; then
+				ONLINE_KEYS=${2}
+				shift
+			else
+				die 'ERROR: "--online-keys" requires an option argument.'
+			fi
+			;;
+		--online-keys=?*)
+			if [ "${1#*=}" ]; then
+				ONLINE_KEYS=${1#*=}
+				shift
+			else
+				die 'ERROR: "--online-keys" requires an option argument.'
+			fi
+			;;
+		--online-keys=)
 			die 'ERROR: "--online-keys" requires an option argument.'
-		fi
-		;;
-	--online-keys=?*)
-		if [ "${1#*=}" ]; then
-			ONLINE_KEYS=${1#*=}
+			;;
+		--)
 			shift
-		else
-			die 'ERROR: "--online-keys" requires an option argument.'
-		fi
-		;;
-	--online-keys=)
-		die 'ERROR: "--online-keys" requires an option argument.'
-		;;
-	--)
-		shift
-		break
-		;;
-	-?*)
-		die 'ERROR: Unknown option (%s).'
-		;;
-	*)
-		break
-		;;
-	esac
-done
+			break
+			;;
+		-?*)
+			die 'ERROR: Unknown option (%s).'
+			;;
+		*)
+			break
+			;;
+		esac
+	done
+fi
 
 if [ -z ${REPO_BASE_URL+x} ]; then
 	REPO_BASE_URL='https://repo1.maven.org/maven2'
