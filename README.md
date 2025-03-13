@@ -99,14 +99,14 @@ and setting the `VERIFICATION_MODE` environment variable to `offline`
 (default value is `online`):
 
 ```bash
-docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/trustdb.gpg:/opt/gnupg/trustdb.gpg" leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0 junit:junit:4.13.1
+docker run --rm -e VERIFICATION_MODE=offline -v "/path/to/.gnupg:/home/default/.gnupg" leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
 Alternatively you can use the `--verification-mode` option to achieve
 the same result:
 
 ```bash
-docker run --rm -v "/path/to/trustdb.gpg:/opt/gnupg/trustdb.gpg" leplusorg/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:2.0.0 junit:junit:4.13.1
+docker run --rm -v "/path/to/.gnupg:/home/default/.gnupg" leplusorg/pgp-verify-jar --verification-mode=offline org.leplus:ristretto:2.0.0 junit:junit:4.13.1
 ```
 
 In `offline` mode, all the keys present in the keyring can be used to
