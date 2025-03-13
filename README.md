@@ -36,7 +36,17 @@ docker run --rm leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0
 ```
 
 You can put several sets in coordinates in arguments to verify
-multiple artifacts. You can also use the `KEYSERVER` environment
+multiple artifacts.
+
+You can also use the `ARTIFACTS` environment
+variable to pass the list of artifacts to verify (coma-separated if
+multiple):
+
+```bash
+docker run --rm -e ARTIFACTS=org.leplus:ristretto:2.0.0 leplusorg/pgp-verify-jar
+```
+
+You can also use the `KEYSERVER` environment
 variable to choose a different keyserver (default is keyserver.ubuntu.com):
 
 ```bash

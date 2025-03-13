@@ -202,7 +202,15 @@ else
 	\unset ONLINE_KEYS
 fi
 
-for artifact in "${@}"; do
+declare -a artifacts
+
+if [ $# -ne 0 ]; then
+	artifacts=("${@}")
+elif [ -n "${ARTIFACTS+x}" ]; then
+	IFS=',' read -r -a artifacts <<<"${ARTIFACTS}"
+fi
+
+for artifact in "${artifacts[@]}"; do
 	\echo Checking "${artifact}"
 	if [[ "${artifact}" == *\@* ]]; then
 		artifactPrefix="${artifact%\@*}"
