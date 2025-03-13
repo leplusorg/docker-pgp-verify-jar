@@ -242,7 +242,7 @@ for artifact in "${artifacts[@]}"; do
 	artifactUrl="${REPO_BASE_URL}/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactFile}"
 	signatureUrl="${artifactUrl}.asc"
 	signatureFile="${artifactFile}.asc"
-	mkdir -m 777 "${DOWNLOAD_DIR}"
+	\mkdir -p "${DOWNLOAD_DIR}"
 	\echo pgp-verify-jar: Downloading "${artifactUrl}"
 	\curl -f -s -S -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
 	\echo pgp-verify-jar: Downloading "${signatureUrl}"
