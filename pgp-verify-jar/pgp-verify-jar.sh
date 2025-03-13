@@ -189,14 +189,14 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
 	else
 		\echo pgp-verify-jar: Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${BOOTSTRAP_ONLINE_KEYS}"
-		\gpg --batch --keyring /opt/gnupg --no-default-keyring --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
+		\gpg --batch --keyring /opt/gnupg/trustdb.gpg --no-default-keyring --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
 	fi
 	if [ -z ${ONLINE_KEYS+x} ]; then
 		\echo pgp-verify-jar: WARN: No online key specified, all keys from server "${KEYSERVER}" can be used.
 	else
 		\echo pgp-verify-jar: Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${ONLINE_KEYS}"
-		\gpg --batch --keyring /opt/gnupg --no-default-keyring --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
+		\gpg --batch --keyring /opt/gnupg/trustdb.gpg --no-default-keyring --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
 	fi
 else
 	\echo pgp-verify-jar: Using offline verification mode.
@@ -243,8 +243,8 @@ for artifact in "${artifacts[@]}"; do
 	\echo pgp-verify-jar: Downloading "${signatureUrl}"
 	\curl -f -s -S -o "${signatureFile}" "${signatureUrl}"
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
-		\gpg --keyring /opt/gnupg --no-default-keyring --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
+		\gpg --keyring /opt/gnupg/trustsb.gpg --no-default-keyring --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${signatureFile}" "${artifactFile}"
 	else
-		\gpg --keyring /opt/gnupg --no-default-keyring --verify "${signatureFile}" "${artifactFile}"
+		\gpg --keyring /opt/gnupg/trustdb.gpg --no-default-keyring --verify "${signatureFile}" "${artifactFile}"
 	fi
 done
