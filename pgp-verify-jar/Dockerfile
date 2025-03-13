@@ -25,7 +25,8 @@ RUN apk -U upgrade \
 # create gpg directory to prevent keyboxd to automagically start, see https://github.com/nodejs/docker-node/pull/1895#issuecomment-1550389150
 RUN mkdir -m 700 /root/.gnupg \
     && gpg --list-keys \
-    && gpgconf --kill all
+    && gpgconf --kill all \
+    && mkdir -m 777 /opt/gnupg
 
 COPY pgp-verify-jar.sh /opt/pgp-verify-jar.sh
 
@@ -41,8 +42,6 @@ ENV HOME="${USER_HOME}"
 USER "${USER_NAME}"
 
 WORKDIR "${HOME}"
-
-RUN mkdir -p -m 700 /opt/gnupg
 
 ENTRYPOINT ["/opt/pgp-verify-jar.sh"]
 
