@@ -31,6 +31,8 @@ RUN mkdir -m 777 /tmp/pgp-verify-jar
 
 COPY pgp-verify-jar.sh /opt/pgp-verify-jar.sh
 
+RUN chmod ugo+rx /opt/pgp-verify-jar.sh
+
 RUN adduser \
   --home "${USER_HOME}" \
   --uid "${USER_ID}" \
