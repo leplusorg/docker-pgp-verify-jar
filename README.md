@@ -2,7 +2,7 @@
 
 Docker container to verify jar files PGP signatures.
 
-[![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](https://github.com/leplusorg/docker-pgp-verify-jar/blob/main/pgp-verify-jar/Dockerfile)
+[![Dockerfile](pgp-verify-jar/Dockerfile)
 [![ShellCheck](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/ShellCheck/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"ShellCheck")
 [![Docker Build](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/Docker/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"Docker")
 [![Docker Stars](https://img.shields.io/docker/stars/leplusorg/pgp-verify-jar)](https://hub.docker.com/r/leplusorg/pgp-verify-jar)
