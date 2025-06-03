@@ -193,14 +193,14 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
 	else
 		\echo pgp-verify-jar: Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${BOOTSTRAP_ONLINE_KEYS}"
-		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
+		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
 	if [ -z ${ONLINE_KEYS+x} ]; then
 		\echo pgp-verify-jar: WARN: No online key specified, all keys from server "${KEYSERVER}" can be used.
 	else
 		\echo pgp-verify-jar: Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${ONLINE_KEYS}"
-		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]}"
+		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
 else
 	\echo pgp-verify-jar: Using offline verification mode.
@@ -220,7 +220,7 @@ else
 	die 'No artifact provided'
 fi
 
-for artifact in "${artifacts[@]}"; do
+for artifact in "${artifacts[@]+"${artifacts[@]}"}"; do
 	\echo pgp-verify-jar: Checking "${artifact}"
 	if [[ "${artifact}" == *\@* ]]; then
 		artifactPrefix="${artifact%\@*}"
