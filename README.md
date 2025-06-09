@@ -1,6 +1,6 @@
 # PGP Verify Jar
 
-Docker container to verify jar files PGP signatures.
+Multi-platform Docker container to verify jar files PGP signatures.
 
 [![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](pgp-verify-jar/Dockerfile)
 [![ShellCheck](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/ShellCheck/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"ShellCheck")
