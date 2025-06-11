@@ -244,9 +244,9 @@ for artifact in "${artifacts[@]+"${artifacts[@]}"}"; do
 	signatureFile="${artifactFile}.asc"
 	\mkdir -p "${DOWNLOAD_DIR}"
 	\echo pgp-verify-jar: Downloading "${artifactUrl}"
-	\curl -f -s -S -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
+	\curl -fsSL -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
 	\echo pgp-verify-jar: Downloading "${signatureUrl}"
-	\curl -f -s -S -o "${DOWNLOAD_DIR}/${signatureFile}" "${signatureUrl}"
+	\curl -fsSL -o "${DOWNLOAD_DIR}/${signatureFile}" "${signatureUrl}"
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
 		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	else
