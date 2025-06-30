@@ -13,7 +13,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 RUN apk -U upgrade \
     && apk add \
     bash=5.2.37-r0 \
-    curl=8.14.1-r0 \
+    curl=8.14.1-r1 \
     git=2.49.0-r0 \
     gnupg=2.4.7-r0 \
     && if apk -u list | grep -q -e . ; then \
