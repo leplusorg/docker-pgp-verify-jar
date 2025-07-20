@@ -94,7 +94,7 @@ Otherwise you will see the following warning from `gpg`:
 `gpg: WARNING: This key is not certified with a trusted signature!`
 
 Finally, if you prefer to verify signatures entirely offline, you can
-mount a local GnuPG folder of your choice into the docker container
+mount a local GnuPG directory of your choice into the docker container
 and setting the `VERIFICATION_MODE` environment variable to `offline`
 (default value is `online`):
 
