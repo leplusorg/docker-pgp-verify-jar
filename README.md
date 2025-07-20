@@ -13,7 +13,7 @@ Multi-platform Docker container to verify jar files PGP signatures.
 
 ## Goal and limitations
 
-The goal of this docker container image is to provide an easy way to
+The goal of this Docker container image is to provide an easy way to
 verify jar files signatures. Currently it can only verify files that
 it downloads from a Maven repository that doesn't require
 authentication and that use a certificate issues by a trusted public
@@ -94,7 +94,7 @@ Otherwise you will see the following warning from `gpg`:
 `gpg: WARNING: This key is not certified with a trusted signature!`
 
 Finally, if you prefer to verify signatures entirely offline, you can
-mount a local GnuPG directory of your choice into the docker container
+mount a local GnuPG directory of your choice into the Docker container
 and setting the `VERIFICATION_MODE` environment variable to `offline`
 (default value is `online`):
 
