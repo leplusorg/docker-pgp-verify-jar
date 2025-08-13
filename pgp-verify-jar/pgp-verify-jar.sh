@@ -184,26 +184,26 @@ if [ -z ${VERIFICATION_MODE+x} ]; then
 fi
 
 if [ "${VERIFICATION_MODE}" = 'online' ]; then
-	\echo pgp-verify-jar: Using online verification mode.
+	echo pgp-verify-jar: Using online verification mode.
 	if [ -z ${KEYSERVER+x} ]; then
 		KEYSERVER='keyserver.ubuntu.com'
 	fi
 	if [ -z ${BOOTSTRAP_ONLINE_KEYS+x} ]; then
-		\echo pgp-verify-jar: No boostrap online key specified.
+		echo pgp-verify-jar: No boostrap online key specified.
 	else
-		\echo pgp-verify-jar: Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
+		echo pgp-verify-jar: Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${BOOTSTRAP_ONLINE_KEYS}"
 		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
 	if [ -z ${ONLINE_KEYS+x} ]; then
-		\echo pgp-verify-jar: WARN: No online key specified, all keys from server "${KEYSERVER}" can be used.
+		echo pgp-verify-jar: WARN: No online key specified, all keys from server "${KEYSERVER}" can be used.
 	else
-		\echo pgp-verify-jar: Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
+		echo pgp-verify-jar: Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${ONLINE_KEYS}"
 		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
 else
-	\echo pgp-verify-jar: Using offline verification mode.
+	echo pgp-verify-jar: Using offline verification mode.
 	\unset KEYSERVER
 	\unset ONLINE_KEYS
 fi
@@ -211,17 +211,17 @@ fi
 declare -a artifacts
 
 if [ $# -ne 0 ]; then
-	\echo pgp-verify-jar: Using artifacts from arguments
+	echo pgp-verify-jar: Using artifacts from arguments
 	artifacts=("${@}")
 elif [ -n "${ARTIFACTS+x}" ]; then
-	\echo pgp-verify-jar: Using artifacts from ARTIFACTS environment variable
+	echo pgp-verify-jar: Using artifacts from ARTIFACTS environment variable
 	IFS=',' read -r -a artifacts <<<"${ARTIFACTS}"
 else
 	die 'No artifact provided'
 fi
 
 for artifact in "${artifacts[@]+"${artifacts[@]}"}"; do
-	\echo pgp-verify-jar: Checking "${artifact}"
+	echo pgp-verify-jar: Checking "${artifact}"
 	if [[ "${artifact}" == *\@* ]]; then
 		artifactPrefix="${artifact%\@*}"
 		artifactExtension="${artifact##*\@}"
@@ -243,9 +243,9 @@ for artifact in "${artifacts[@]+"${artifacts[@]}"}"; do
 	signatureUrl="${artifactUrl}.asc"
 	signatureFile="${artifactFile}.asc"
 	\mkdir -p "${DOWNLOAD_DIR}"
-	\echo pgp-verify-jar: Downloading "${artifactUrl}"
+	echo pgp-verify-jar: Downloading "${artifactUrl}"
 	\curl -fsSL -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
-	\echo pgp-verify-jar: Downloading "${signatureUrl}"
+	echo pgp-verify-jar: Downloading "${signatureUrl}"
 	\curl -fsSL -o "${DOWNLOAD_DIR}/${signatureFile}" "${signatureUrl}"
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
 		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
