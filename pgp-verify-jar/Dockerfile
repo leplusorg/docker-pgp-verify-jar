@@ -10,13 +10,13 @@ ARG USER_GECOS=Default
 SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 
 # hadolint ignore=DL3019
-RUN apk -U upgrade \
-    && apk add \
+RUN apk upgrade --no-cache \
+    && apk add --no-cache \
     bash=5.2.37-r0 \
     curl=8.14.1-r1 \
     git=2.49.1-r0 \
     gnupg=2.4.7-r0 \
-    && apk cache clean \
+    && apk cache --no-cache clean \
     && rm -rf /var/cache/apk/*
     
 # create gpg directory to prevent keyboxd to automagically start, see https://github.com/nodejs/docker-node/pull/1895#issuecomment-1550389150
