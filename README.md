@@ -1,6 +1,6 @@
 # PGP Verify Jar
 
-Multi-platform Docker container to verify jar files PGP signatures.
+Multi-platform Docker container to verify JAR files PGP signatures.
 
 [![Dockerfile](https://img.shields.io/badge/GitHub-Dockerfile-blue)](pgp-verify-jar/Dockerfile)
 [![ShellCheck](https://github.com/leplusorg/docker-pgp-verify-jar/workflows/ShellCheck/badge.svg)](https://github.com/leplusorg/docker-pgp-verify-jar/actions?query=workflow:"ShellCheck")
@@ -14,7 +14,7 @@ Multi-platform Docker container to verify jar files PGP signatures.
 ## Goal and limitations
 
 The goal of this Docker container image is to provide an easy way to
-verify jar files signatures. Currently it can only verify files that
+verify JAR files signatures. Currently it can only verify files that
 it downloads from a Maven repository that doesn't require
 authentication and that use a certificate issues by a trusted public
 CA.
@@ -29,7 +29,7 @@ Gradle even has this feature
 
 ## Examples
 
-Assuming that you want to see the signature of two jar files:
+Assuming that you want to see the signature of two JAR files:
 
 ```bash
 docker run --rm leplusorg/pgp-verify-jar org.leplus:ristretto:2.0.0 junit:junit:4.13.1
@@ -58,7 +58,7 @@ docker run --rm leplusorg/pgp-verify-jar --keyserver=pgp.mit.edu org.leplus:rist
 ```
 
 > [!WARNING]
-> Note that this will show you the jar files signature information but if
+> Note that this will show you the JAR files signature information but if
 > you use a public keyserver, it doesn't provide any guarantee since
 > anybody can upload a key to a public keyserver and claim that it is
 > owned by anyone (neither the name nor the email address associated
@@ -134,11 +134,11 @@ Replace `linux/amd64` by the desired platform (`linux/amd64`, `linux/arm64` etc.
 
 [Sigstore](https://docs.sigstore.dev) is trying to improve supply
 chain security by allowing you to verify the origin of an
-artifcat. You can verify that the jar that you use was actually
+artifcat. You can verify that the image that you use was actually
 produced by this repository. This means that if you verify the
-signature of the ristretto jar, you can trust the integrity of the
+signature of the Docker image, you can trust the integrity of the
 whole supply chain from code source, to CI/CD build, to distribution
-on Maven Central or whever you got the jar from.
+on Maven Central or whever you got the image from.
 
 You can use the following command to verify the latest image using its
 sigstore signature attestation:
