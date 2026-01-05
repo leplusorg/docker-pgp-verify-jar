@@ -14,7 +14,7 @@ RUN apk upgrade --no-cache \
     bash=5.3.3-r1 \
     curl=8.17.0-r1 \
     git=2.52.0-r0 \
-    gnupg=2.4.8-r1 \
+    gnupg=2.4.9-r0 \
     && apk cache --no-cache clean \
     && rm -rf /var/cache/apk/*
     
