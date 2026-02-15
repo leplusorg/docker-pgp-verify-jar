@@ -21,7 +21,7 @@ Options:
                                     operations. Default is keyserver.ubuntu.com.
  -b, --bootstrap-online-keys KEYS   download from the keyserver the keys with
                                     the provided IDs (typically key-signing keys
-                                    used to boostrap the chain of trust). This
+                                    used to bootstrap the chain of trust). This
                                     option argument can be a single ID or a
                                     comma-separated list of IDs.
  -o, --online-keys KEYS             download from the keyserver only the keys
@@ -189,9 +189,9 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
 		KEYSERVER='keyserver.ubuntu.com'
 	fi
 	if [ -z ${BOOTSTRAP_ONLINE_KEYS+x} ]; then
-		echo pgp-verify-jar: No boostrap online key specified.
+		echo pgp-verify-jar: No bootstrap online key specified.
 	else
-		echo pgp-verify-jar: Downloading boostrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
+		echo pgp-verify-jar: Downloading bootstrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${BOOTSTRAP_ONLINE_KEYS}"
 		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
