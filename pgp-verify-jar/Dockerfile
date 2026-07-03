@@ -12,7 +12,7 @@ SHELL ["/bin/ash", "-euo", "pipefail", "-c"]
 RUN apk upgrade --no-cache \
     && apk add --no-cache \
     bash=5.3.9-r1 \
-    curl=8.20.0-r1 \
+    curl=8.21.0-r0 \
     git=2.54.0-r0 \
     gnupg=2.4.9-r1 \
     && apk cache --no-cache clean \
