@@ -193,19 +193,19 @@ if [ "${VERIFICATION_MODE}" = 'online' ]; then
 	else
 		echo pgp-verify-jar: Downloading bootstrap keys "${BOOTSTRAP_ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${BOOTSTRAP_ONLINE_KEYS}"
-		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
+		gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
 	if [ -z ${ONLINE_KEYS+x} ]; then
 		echo pgp-verify-jar: WARN: No online key specified, all keys from server "${KEYSERVER}" can be used.
 	else
 		echo pgp-verify-jar: Downloading keys "${ONLINE_KEYS}" from server "${KEYSERVER}"
 		IFS=',' read -ra keys <<<"${ONLINE_KEYS}"
-		\gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
+		gpg --batch --verbose --keyserver "${KEYSERVER}" --recv-keys "${keys[@]+"${keys[@]}"}"
 	fi
 else
 	echo pgp-verify-jar: Using offline verification mode.
-	\unset KEYSERVER
-	\unset ONLINE_KEYS
+	unset KEYSERVER
+	unset ONLINE_KEYS
 fi
 
 declare -a artifacts
@@ -242,14 +242,14 @@ for artifact in "${artifacts[@]+"${artifacts[@]}"}"; do
 	artifactUrl="${REPO_BASE_URL}/${groupId//\.//}/${artifactId}/${artifactVersion}/${artifactFile}"
 	signatureUrl="${artifactUrl}.asc"
 	signatureFile="${artifactFile}.asc"
-	\mkdir -p "${DOWNLOAD_DIR}"
+	mkdir -p "${DOWNLOAD_DIR}"
 	echo pgp-verify-jar: Downloading "${artifactUrl}"
-	\curl -fsSL -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
+	curl -fsSL -o "${DOWNLOAD_DIR}/${artifactFile}" "${artifactUrl}"
 	echo pgp-verify-jar: Downloading "${signatureUrl}"
-	\curl -fsSL -o "${DOWNLOAD_DIR}/${signatureFile}" "${signatureUrl}"
+	curl -fsSL -o "${DOWNLOAD_DIR}/${signatureFile}" "${signatureUrl}"
 	if [ "${VERIFICATION_MODE}" = 'online' ] && [ -z ${ONLINE_KEYS+x} ]; then
-		\gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
+		gpg --auto-key-locate keyserver --keyserver "${KEYSERVER}" --keyserver-options auto-key-retrieve --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	else
-		\gpg --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
+		gpg --verify "${DOWNLOAD_DIR}/${signatureFile}" "${DOWNLOAD_DIR}/${artifactFile}"
 	fi
 done
